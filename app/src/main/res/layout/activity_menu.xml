@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menubackground">
+
+    <Button
+        android:id="@+id/book_appointments_button"
+        android:layout_width="300dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="190dp"
+        android:layout_centerHorizontal="true"
+        android:text="Book Appointments"
+        android:drawableLeft="@drawable/doctortoo"
+        android:paddingLeft="15dp"
+        android:textColor="#008BF7"
+        android:drawablePadding="30dp"
+        android:textAlignment="textStart"
+        android:background="@drawable/round_shape"
+        android:fontFamily="@font/bahnschrift"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textSize="17dp"
+        />
+
+    <Button
+        android:id="@+id/pharmacy_button"
+        android:layout_width="300dp"
+        android:layout_height="64dp"
+        android:layout_below="@id/book_appointments_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/round_shape"
+        android:drawableLeft="@drawable/drugs"
+        android:fontFamily="@font/bahnschrift"
+        android:paddingLeft="15dp"
+        android:text="Pharmacy"
+        android:textAlignment="textStart"
+        android:drawablePadding="60dp"
+        android:textColor="#008BF7"
+        android:textAllCaps="false"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:textAllCaps="false"
+        android:id="@+id/medical_history_button"
+        android:layout_width="300dp"
+        android:layout_height="64dp"
+        android:layout_below="@id/pharmacy_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/round_shape"
+        android:drawableLeft="@drawable/folder"
+        android:fontFamily="@font/bahnschrift"
+        android:textStyle="bold"
+        android:paddingLeft="15dp"
+        android:text="Medical History"
+        android:textSize="17dp"
+        android:textAlignment="textStart"
+        android:drawablePadding="50dp"
+        android:textColor="#008BF7" />
+    <Button
+        android:textColor="#FFFFFF"
+        android:id="@+id/emergency_button"
+        android:layout_width="300dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/medical_history_button"
+        android:text="Emergency"
+        android:drawableLeft="@drawable/ambulance"
+        android:paddingLeft="15dp"
+        android:fontFamily="@font/bahnschrift"
+        android:textStyle="bold"
+        android:textAlignment="textStart"
+        android:drawablePadding="50dp"
+        android:textAllCaps="false"
+        android:textSize="17dp"
+        android:background="@drawable/ambulance_button_background"/>
+
+
+</RelativeLayout>
