@@ -9,7 +9,7 @@
     <Button
         android:id="@+id/book_appointments_button"
         android:layout_width="300dp"
-        android:layout_height="64dp"
+        android:layout_height="60dp"
         android:layout_marginTop="190dp"
         android:layout_centerHorizontal="true"
         android:text="Book Appointments"
@@ -17,6 +17,7 @@
         android:paddingLeft="15dp"
         android:textColor="#008BF7"
         android:drawablePadding="30dp"
+
         android:textAlignment="textStart"
         android:background="@drawable/round_shape"
         android:fontFamily="@font/bahnschrift"
@@ -28,7 +29,7 @@
     <Button
         android:id="@+id/pharmacy_button"
         android:layout_width="300dp"
-        android:layout_height="64dp"
+        android:layout_height="60dp"
         android:layout_below="@id/book_appointments_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
@@ -48,7 +49,7 @@
         android:textAllCaps="false"
         android:id="@+id/medical_history_button"
         android:layout_width="300dp"
-        android:layout_height="64dp"
+        android:layout_height="60dp"
         android:layout_below="@id/pharmacy_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
@@ -60,13 +61,13 @@
         android:text="Medical History"
         android:textSize="17dp"
         android:textAlignment="textStart"
-        android:drawablePadding="50dp"
+        android:drawablePadding="60dp"
         android:textColor="#008BF7" />
     <Button
         android:textColor="#FFFFFF"
         android:id="@+id/emergency_button"
         android:layout_width="300dp"
-        android:layout_height="64dp"
+        android:layout_height="60dp"
         android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/medical_history_button"
