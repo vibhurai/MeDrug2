@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/appointments">
+
+
+    <Button
+        android:id="@+id/d1"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/g131"
+
+
+        android:drawableStart="@drawable/doctortoo"
+        android:drawablePadding="50dp"
+        android:fontFamily="@font/bahnschrift"
+        android:onClick="end"
+        android:paddingLeft="15dp"
+        android:text="Doctor 1\nMBBS"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/d2"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/d1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/g131"
+        android:drawableStart="@drawable/doctortoo"
+        android:drawablePadding="50dp"
+
+
+        android:fontFamily="@font/bahnschrift"
+        android:onClick="end"
+        android:paddingLeft="15dp"
+        android:text="Doctor 2\nMD"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/d3"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/d2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+
+
+        android:background="@drawable/g131"
+        android:drawableStart="@drawable/doctortoo"
+        android:drawablePadding="50dp"
+        android:fontFamily="@font/bahnschrift"
+        android:onClick="end"
+
+        android:paddingLeft="15dp"
+        android:text="Doctor who\nPsychoTheRapist"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/d4"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/d3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/g131"
+
+        android:drawableStart="@drawable/doctortoo"
+        android:drawablePadding="45dp"
+        android:fontFamily="@font/bahnschrift"
+
+        android:onClick="end"
+
+        android:paddingLeft="15dp"
+        android:text="Doctor Strange\nAvenger"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/d5"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/d4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:alpha="1"
+        android:background="@drawable/g131"
+
+        android:drawableStart="@drawable/doctortoo"
+        android:drawablePadding="50dp"
+        android:fontFamily="@font/bahnschrift"
+        android:onClick="end"
+        android:paddingLeft="15dp"
+        android:text="Doctor PhD\nNakli"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class menu extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,25 @@ public class menu extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        Button b2 = findViewById(R.id.book_appointments_button);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), Bookapt.class);
+                startActivity(i);
+            }
+        });
+
+        Button b3 = findViewById(R.id.pharmacy_button);
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), Farmacie.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 }

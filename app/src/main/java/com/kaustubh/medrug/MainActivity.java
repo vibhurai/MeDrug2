@@ -26,6 +26,6 @@ public class MainActivity extends AppCompatActivity {
         public void openActivity2() {
             Intent intent = new Intent(this, menu.class);
             startActivity(intent);
-//            asdasd
+//
         }
 }
