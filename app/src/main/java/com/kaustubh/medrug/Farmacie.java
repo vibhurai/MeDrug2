@@ -1,82 +1,75 @@
 package com.kaustubh.medrug;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.app.ListActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Farmacie extends AppCompatActivity {
 
+    private ExampleAdapter adapter;
+    private List<ExampleItem> exampleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        SearchView searchView;
-        ListView listView;
-        final ArrayList<String> list;
-        final ArrayAdapter<String> adapter;
+        fillExampleList();
+        setUpRecyclerView();
+        SearchView searchView = (SearchView) findViewById(R.id.action_search);
 
 
 
-            searchView = (SearchView) findViewById(R.id.searchView);
-            listView = (ListView) findViewById(R.id.lv1);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-            list = new ArrayList<>();
-            list.add("Crocin");
-            list.add("Dolo");
-            list.add("Zolpidem");
-            list.add("Vizylac");
-            list.add("Pan-40");
-            list.add("Zifi");
-            list.add("Allegra");
-            list.add("Ondem");
-            list.add("Metrogyl");
-            list.add("Ambien");
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
 
-        list.add("Crocin2");
-        list.add("Dolo2");
-        list.add("Zolpidem2");
-        list.add("Vizylac2");
-        list.add("Pan-402");
-        list.add("Zifi2");
-        list.add("Allegra2");
-        list.add("Ondem2");
-        list.add("Metrogyl2");
-        list.add("Ambien2");
+    private void fillExampleList() {
+        exampleList = new ArrayList<>();
+        exampleList.add(new ExampleItem(R.drawable.drugs, "Crocin", "Paracetamol"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "Ishit", "chota nunnu"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "kaustubh", "micro nunnu"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "mihir", "gawaar"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "megha", "awesome human"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "Sasta", "Nasha"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "khaana", "peena"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "Rona", "Dhona"));
+        exampleList.add(new ExampleItem(R.drawable.drugs, "babu shona", "randi rona"));
+    }
 
-            adapter = new ArrayAdapter<String>(this, R.layout.list_fancy, list);
-            listView.setAdapter(adapter);
+    private void setUpRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        adapter = new ExampleAdapter(exampleList);
 
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-
-                    if (list.contains(query)) {
-                        adapter.getFilter().filter(query);
-                    } else {
-                        Toast.makeText(Farmacie.this, "No Match found", Toast.LENGTH_LONG).show();
-                    }
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                       adapter.getFilter().filter(newText);
-                    return false;
-                }
-            });
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 
 
-        }
     }
 
 

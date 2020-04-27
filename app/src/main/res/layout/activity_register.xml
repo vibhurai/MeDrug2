@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/register">
+
+    <EditText
+        android:id="@+id/Username"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/rect"
+        android:layout_centerHorizontal="true"
+
+        android:hint="Username"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+
+        android:textColorHint="#B8ADAD"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/butt2"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/rect"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/Username"
+
+        android:hint="SNU Net ID"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+
+        android:textColorHint="#B8ADAD"
+        android:importantForAutofill="no" />
+
+
+
+    <EditText
+        android:id="@+id/butt3"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/rect"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/butt2"
+
+        android:hint="Don't remember"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+
+        android:textColorHint="#B8ADAD"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/butt4"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/rect"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/butt3"
+
+        android:hint="Don't remember"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+
+        android:textColorHint="#B8ADAD"
+        android:importantForAutofill="no" />
+
+     <Button
+        android:id="@+id/button3"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/round_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/butt4"
+
+
+
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+         android:text="Register"
+         android:fontFamily="@font/bahnschrift"
+
+        android:textColorHint="#B8ADAD"
+        android:importantForAutofill="no" />
+</RelativeLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/menubackground">
+    android:background="@drawable/menu">
 
     <Button
         android:id="@+id/book_appointments_button"
@@ -26,15 +26,17 @@
         android:textSize="17dp"
         android:textStyle="bold" />
 
+
+
     <Button
         android:id="@+id/pharmacy_button"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_below="@id/book_appointments_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="55dp"
         android:background="@drawable/round_shape"
-        android:drawableStart="@drawable/drugs"
+        android:drawableStart="@drawable/name"
         android:fontFamily="@font/bahnschrift"
         android:paddingLeft="15dp"
         android:text="Pharmacy"
@@ -45,32 +47,15 @@
         android:textSize="17dp"
         android:textStyle="bold" />
 
-    <Button
-        android:textAllCaps="false"
-        android:id="@+id/medical_history_button"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/pharmacy_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/round_shape"
-        android:drawableLeft="@drawable/folder"
-        android:fontFamily="@font/bahnschrift"
-        android:textStyle="bold"
-        android:paddingLeft="15dp"
-        android:text="Medical History"
-        android:textSize="17dp"
-        android:textAlignment="textStart"
-        android:drawablePadding="60dp"
-        android:textColor="#008BF7" />
+
     <Button
         android:textColor="#FFFFFF"
         android:id="@+id/emergency_button"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="55dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/medical_history_button"
+        android:layout_below="@id/contact_button"
         android:text="Emergency"
         android:drawableLeft="@drawable/ambulance"
         android:paddingLeft="15dp"
@@ -81,6 +66,25 @@
         android:textAllCaps="false"
         android:textSize="17dp"
         android:background="@drawable/ambulance_button_background"/>
+
+    <Button
+        android:textColor="#008BF7"
+        android:id="@+id/contact_button"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/pharmacy_button"
+        android:text="Contact Us"
+        android:drawableLeft="@drawable/folder"
+        android:paddingLeft="15dp"
+        android:fontFamily="@font/bahnschrift"
+        android:textStyle="bold"
+        android:textAlignment="textStart"
+        android:drawablePadding="50dp"
+        android:textAllCaps="false"
+        android:textSize="17dp"
+        android:background="@drawable/round_shape"/>
 
 
 </RelativeLayout>

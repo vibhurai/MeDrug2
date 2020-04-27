@@ -45,12 +45,7 @@ public class Bookapt extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookapt);
-        final SQLiteDatabase meDrug= this.openOrCreateDatabase("meDrug",MODE_PRIVATE,null);
-        meDrug.execSQL("CREATE TABLE if not exists Bookings (Date VARCHAR(30),Doctor varchar(30), time varchar(4))");
-//        Spinner sp =findViewById(R.id.Name);
-//        ArrayAdapter<CharSequence > adapter= ArrayAdapter.createFromResource(this,R.array.Doctors, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        sp.setAdapter(adapter);
+
         Button b1 = findViewById(R.id.Name);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override

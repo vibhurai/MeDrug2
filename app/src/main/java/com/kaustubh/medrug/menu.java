@@ -44,6 +44,15 @@ public class menu extends AppCompatActivity {
             }
         });
 
+        Button b4 = findViewById(R.id.contact_button);
+        b4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), contact.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 }

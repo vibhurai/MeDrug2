@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/appointments">
+    android:background="@drawable/appoint">
 
 
 
@@ -53,7 +53,7 @@
         android:layout_height="60dp"
         android:layout_below="@id/time"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
 
 
         android:background="@drawable/round_button"
@@ -68,18 +68,7 @@
         android:textSize="17dp"
         android:textStyle="bold" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/time"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/bahnschrift"
-        android:text="Waitlist if no slots available"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp"
-        android:textStyle="bold|italic" />
+
 
     <Button
         android:id="@+id/Name"
