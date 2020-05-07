@@ -6,7 +6,7 @@
     app:cardElevation="0dp"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardMaxElevation="0dp"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="40dp"
 
     app:cardCornerRadius="6dp">
     <ImageView
@@ -19,7 +19,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp">
+        android:layout_margin="4dp"
+        android:layout_marginBottom="30dp">
+
 
 
         <ImageView
@@ -36,7 +38,7 @@
             android:layout_toEndOf="@+id/image_view"
             android:text="Line 1"
             android:textColor="@android:color/holo_blue_dark"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
@@ -48,7 +50,7 @@
 
             android:layout_toEndOf="@+id/image_view"
             android:text="Line 2"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
     </RelativeLayout>
 

@@ -1,7 +1,11 @@
 package com.kaustubh.medrug;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,28 +14,39 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.util.ISO8601Utils;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class Farmacie extends AppCompatActivity {
+    protected ExampleAdapter adapter;
 
-    private ExampleAdapter adapter;
-    private List<ExampleItem> exampleList;
+
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        fillExampleList();
+        System.out.println(MainActivity.exampleList);
+
         setUpRecyclerView();
-        SearchView searchView = (SearchView) findViewById(R.id.action_search);
-
-
-
+        SearchView searchView = findViewById(R.id.action_search);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -41,35 +56,28 @@ public class Farmacie extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
+                adapter.notifyDataSetChanged();
+                System.out.println(MainActivity.exampleList);
+                System.out.println(newText);
                 return false;
             }
         });
+
     }
 
-    private void fillExampleList() {
-        exampleList = new ArrayList<>();
-        exampleList.add(new ExampleItem(R.drawable.drugs, "Crocin", "Paracetamol"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "Ishit", "chota nunnu"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "kaustubh", "micro nunnu"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "mihir", "gawaar"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "megha", "awesome human"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "Sasta", "Nasha"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "khaana", "peena"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "Rona", "Dhona"));
-        exampleList.add(new ExampleItem(R.drawable.drugs, "babu shona", "randi rona"));
-    }
+
 
     private void setUpRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter = new ExampleAdapter(exampleList);
+        adapter = new ExampleAdapter (MainActivity.exampleList);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
 
-    }
+}
 
 

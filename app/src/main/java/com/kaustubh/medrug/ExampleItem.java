@@ -10,6 +10,7 @@ public class ExampleItem {
         this.imageResource = imageResource;
         this.text1 = text1;
         this.text2 = text2;
+
     }
 
     public int getImageResource() {
@@ -22,5 +23,10 @@ public class ExampleItem {
 
     public String getText2() {
         return text2;
+    }
+
+    public String toString()
+    {
+        return (text1+" "+text2);
     }
 }

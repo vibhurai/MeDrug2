@@ -1,11 +1,8 @@
 package com.kaustubh.medrug;
 
-import android.app.Activity;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -18,6 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> implements Filterable {
     private List<ExampleItem> exampleList;
@@ -44,8 +54,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_fancy,
-                parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_fancy,parent, false);
         return new ExampleViewHolder(v);
     }
 
@@ -71,16 +80,16 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            Object filteredList = new ArrayList<>();
+            List<ExampleItem> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
-                ((ArrayList) filteredList).addAll(exampleListFull);
+                filteredList.addAll(exampleListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (ExampleItem item : exampleListFull) {
                     if (item.getText2().toLowerCase().contains(filterPattern)||item.getText1().toLowerCase().contains(filterPattern)) {
-                        ((ArrayList) filteredList).add(item);
+                        filteredList.add(item);
                     }
                 }
             }
