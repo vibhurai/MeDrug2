@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
     interface_proc intr;
     int l_s=0;
     protected static List<ExampleItem> exampleList;
+    protected static List<DocItem> doctorList;
     interface_proc Interface_proc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fillExampleList();
+
         Gson gson = new GsonBuilder()
                 .setLenient().serializeNulls()
                 .create();
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
             intr = retrofit.create(interface_proc.class);
+            fillExampleList();
+            fillDoctorList();
             button = (Button) findViewById(R.id.button2);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         });
         }
 
-        public void openActivity2() {
+      public void openActivity2() {
             Intent intent = new Intent(this, menu.class);
             startActivity(intent);
 //
@@ -161,6 +164,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    protected void fillDoctorList() {
+
+        Gson gson = new GsonBuilder()
+                .setLenient().serializeNulls()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://devilish.pythonanywhere.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+       doctorList = new ArrayList<>();
+
+        Interface_proc = retrofit.create(interface_proc.class);
+        Call<List<doctors>> call;
+
+        call = Interface_proc.getdocs();
+        call.enqueue(new Callback<List<doctors>>() {
+            @Override
+            public void onResponse(Call<List<doctors>> call, Response<List<doctors>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, "Sori", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                List<doctors> docList = response.body();
+
+                for (doctors doc : docList) {
+                    doctorList.add(new DocItem(R.drawable.doctortoo,doc.getName(),doc.getSpeciality(),doc.getDetails(), doc.getPhone()));
+
+
+                }
+            }
+            @Override
+            public void onFailure(Call<List<doctors>> call, Throwable t) {
+
+
+            }
+        });
+        System.out.println(doctorList);
+    }
+
 
 
 }

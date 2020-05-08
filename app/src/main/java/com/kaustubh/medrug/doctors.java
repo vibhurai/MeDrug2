@@ -11,9 +11,9 @@ package com.kaustubh.medrug;
 public class doctors {
     private int id;
     private String name;
-    private long phone;
+    private int phone;
     private String speciality;
-    private String picture;
+    //private String picture;
     private String details;
 
     public int getId() {
@@ -24,7 +24,7 @@ public class doctors {
         return name;
     }
 
-    public long getPhone() {
+    public int getPhone() {
         return phone;
     }
 
@@ -32,9 +32,9 @@ public class doctors {
         return speciality;
     }
 
-    public String getPicture() {
-        return picture;
-    }
+//    public String getPicture() {
+//        return picture;
+//    }
 
     public String getDetails() {
         return details;

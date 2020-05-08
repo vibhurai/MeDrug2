@@ -1,6 +1,9 @@
 package com.kaustubh.medrug;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -28,17 +31,17 @@ import java.util.List;
 
 
 public class docs extends AppCompatActivity {
-    interface_proc intr_docs;
+    protected DoctorAdapter adapter2;
     public void end(View view){
-        Button b1 = (Button)view;
+//        Button b1 = (Button)view;
         Intent in = new Intent();
 //
-        String[] text = ((String) b1.getText()).split("\n");
+//        String[] text = ((String) b1.getText()).split("\n");
 
 
-        in.putExtra("Name",text[0]);
-        setResult(1,in);
-        finish();
+//        in.putExtra("Name",text[0]);
+//        setResult(1,in);
+//        finish();
 
     }
 
@@ -46,44 +49,22 @@ public class docs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docs);
-        Gson gson = new GsonBuilder()
-                .setLenient().serializeNulls()
-                .create();
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        setUpDoctorView();
 
-
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://devilish.pythonanywhere.com/")
-                .client(client)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        intr_docs = retrofit.create(interface_proc.class);
-        fillbuttons();
     }
 
-    private void fillbuttons() {
-        Call<List<doctors>> call;
-        call = intr_docs.getdocs();
-        call.enqueue(new Callback<List<doctors>>() {
-            @Override
-            public void onResponse(Call<List<doctors>> call, Response<List<doctors>> response) {
-                if (!response.isSuccessful()) {
-                    return;
-                }
-                List<doctors> doc= response.body();
-                for (doctors med : doc) {
+    private void setUpDoctorView() {
+        RecyclerView recyclerView2 = findViewById(R.id.doctor_recycler);
+        recyclerView2.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        adapter2 = new DoctorAdapter(MainActivity.doctorList);
 
-                }
-            }
+        recyclerView2.setLayoutManager(layoutManager);
+        recyclerView2.setAdapter(adapter2);
 
-            @Override
-            public void onFailure(Call<List<doctors>> call, Throwable t) {
-//                tv.setText(t.getMessage());
-            }
-        });
+
+
     }
+
+
 }

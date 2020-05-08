@@ -2,7 +2,6 @@ package com.kaustubh.medrug;
 
 public class medicines {
     private int id;
-
     private String name;
     private int quantity;
     private double price;
