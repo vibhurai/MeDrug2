@@ -1,12 +1,21 @@
 package com.kaustubh.medrug;
 
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -15,28 +24,43 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class MainActivity extends AppCompatActivity {
-
+//    https://www.youtube.com/watch?v=I-I67MNRQZM
+    Button button;
+    EditText user_name;
+    EditText pass;
+    interface_proc intr;
+    int l_s=0;
     protected static List<ExampleItem> exampleList;
     interface_proc Interface_proc;
-//    https://www.youtube.com/watch?v=I-I67MNRQZM
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fillExampleList();
-        Button button = (Button) findViewById(R.id.button2);
+        Gson gson = new GsonBuilder()
+                .setLenient().serializeNulls()
+                .create();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://devilish.pythonanywhere.com/")
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+            intr = retrofit.create(interface_proc.class);
+            button = (Button) findViewById(R.id.button2);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openActivity2();
+                    int x = log();
+
+
                 }
             });
 
@@ -55,6 +79,36 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 //
         }
+        public int log()
+        {
+             user_name = (EditText) findViewById(R.id.Username);
+             pass = (EditText) findViewById(R.id.Passwod);
+            Editable newTxt=(Editable)user_name.getText();
+            String usr = newTxt.toString();
+            Editable newTxt1=(Editable)pass.getText();
+            String pas = newTxt1.toString();
+
+             login flag = new login(usr,pas);
+            Call<login> call = intr.postlogin(flag);
+            call.enqueue(new Callback<login>() {
+                @Override
+                public void onResponse(Call<login> call, Response<login> response) {
+                    if (!response.isSuccessful()) {
+//                        tt.setText("Code: " + response.code());
+                        Toast.makeText(MainActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<login> call, Throwable t) {
+                   openActivity2();
+                }
+            });
+
+            return l_s;
+
+        }
 
     private void fillExampleList() {
 
@@ -67,20 +121,21 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         exampleList = new ArrayList<>();
 
-        Call<List<meds_intr>> call;
         Interface_proc = retrofit.create(interface_proc.class);
+        Call<List<medicines>> call;
+
         call = Interface_proc.getmeds();
-        call.enqueue(new Callback<List<meds_intr>>() {
+        call.enqueue(new Callback<List<medicines>>() {
             @Override
-            public void onResponse(Call<List<meds_intr>> call, Response<List<meds_intr>> response) {
+            public void onResponse(Call<List<medicines>> call, Response<List<medicines>> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "Sori", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                List<meds_intr> doc = response.body();
+                List<medicines> doc = response.body();
                 int doc_id = 0;
                 assert doc != null;
-                for (meds_intr med : doc) {
+                for (medicines med : doc) {
                     if (doc_id < 10) {
                         String content = "";
                         int x = med.getCategory();
@@ -100,10 +155,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<List<meds_intr>> call, Throwable t) {
+            public void onFailure(Call<List<medicines>> call, Throwable t) {
 
 
             }
         });
     }
+
+
 }
