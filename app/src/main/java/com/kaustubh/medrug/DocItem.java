@@ -7,9 +7,9 @@ public class DocItem {
     private String text1;
     private String text2;
     private String text3;
-    private int text4;
+    private String text4;
 
-     public  DocItem(int imageResource, String text1, String text2, String text3, int text4) {
+     public  DocItem(int imageResource, String text1, String text2, String text3, String text4) {
         this.imageResource = imageResource;
         this.text1 = text1;
         this.text2 = text2;
@@ -33,7 +33,7 @@ public class DocItem {
         return text3;
     }
 
-    int getText4() {
+    String getText4() {
         return text4;
     }
 
@@ -43,4 +43,4 @@ public class DocItem {
     {
         return (text1+" "+text2);
     }
-}
+ }

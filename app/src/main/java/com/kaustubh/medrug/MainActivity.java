@@ -190,10 +190,13 @@ public class MainActivity extends AppCompatActivity {
                 List<doctors> docList = response.body();
 
                 for (doctors doc : docList) {
-                    doctorList.add(new DocItem(R.drawable.doctortoo,doc.getName(),doc.getSpeciality(),doc.getDetails(), doc.getPhone()));
+                    doctorList.add(new DocItem(R.drawable.doctortoo,doc.getName(),doc.getSpeciality(),doc.getDetails(), String.valueOf(doc.getPhone())));
+
 
 
                 }
+                System.out.println(doctorList);
+
             }
             @Override
             public void onFailure(Call<List<doctors>> call, Throwable t) {
@@ -201,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        System.out.println(doctorList);
     }
 
 

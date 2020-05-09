@@ -1,5 +1,6 @@
 package com.kaustubh.medrug;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorViewHolder>{
+
+public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorViewHolder> {
     private List<DocItem> exampleList;
+    private docclick docclick;
 
 
-    class DoctorViewHolder extends RecyclerView.ViewHolder {
+
+
+    class DoctorViewHolder extends RecyclerView.ViewHolder implements RecyclerView.OnClickListener{
         ImageView imageView;
         TextView textView1;
         TextView textView2;
@@ -30,11 +35,21 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             textView2 = itemView.findViewById(R.id.tvw2);
             textView3 = itemView.findViewById(R.id.tvw3);
             textView4 = itemView.findViewById(R.id.tvw4);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            System.out.println("Button Pressed "+String.valueOf(getAdapterPosition()));
+            docclick.ondocclick(getAdapterPosition());
+
         }
     }
 
-    DoctorAdapter(List<DocItem> exampleList) {
+    DoctorAdapter(List<DocItem> exampleList, docs docs) {
         this.exampleList = exampleList;
+        docclick=docs;
+
 
     }
 
@@ -63,4 +78,11 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
     public int getItemCount() {
         return exampleList.size();
     }
+
+    public interface docclick
+    {
+        void ondocclick( int position);
+    }
+
+
 }

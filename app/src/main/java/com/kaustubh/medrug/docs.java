@@ -30,18 +30,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class docs extends AppCompatActivity {
+public class docs extends AppCompatActivity implements DoctorAdapter.docclick {
     protected DoctorAdapter adapter2;
-    public void end(View view){
+    public void end(int pos){
 //        Button b1 = (Button)view;
         Intent in = new Intent();
 //
-//        String[] text = ((String) b1.getText()).split("\n");
+       String text = MainActivity.doctorList.get(pos).getText1();
 
 
-//        in.putExtra("Name",text[0]);
-//        setResult(1,in);
-//        finish();
+        in.putExtra("Name",text);
+        setResult(1,in);
+        finish();
 
     }
 
@@ -57,14 +57,21 @@ public class docs extends AppCompatActivity {
         RecyclerView recyclerView2 = findViewById(R.id.doctor_recycler);
         recyclerView2.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter2 = new DoctorAdapter(MainActivity.doctorList);
+        adapter2 = new DoctorAdapter(MainActivity.doctorList,docs.this);
+
 
         recyclerView2.setLayoutManager(layoutManager);
         recyclerView2.setAdapter(adapter2);
 
 
 
+
     }
 
 
+    @Override
+    public void ondocclick(int position) {
+        end(position);
+
+    }
 }

@@ -95,4 +95,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
             notifyDataSetChanged();
         }
     };
+
+
+
 }
