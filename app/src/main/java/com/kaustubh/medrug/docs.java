@@ -36,7 +36,7 @@ public class docs extends AppCompatActivity implements DoctorAdapter.docclick {
 //        Button b1 = (Button)view;
         Intent in = new Intent();
 //
-       String text = MainActivity.doctorList.get(pos).getText1();
+       String text = Main2Activity.doctorList.get(pos).getText1();
 
 
         in.putExtra("Name",text);
@@ -57,7 +57,7 @@ public class docs extends AppCompatActivity implements DoctorAdapter.docclick {
         RecyclerView recyclerView2 = findViewById(R.id.doctor_recycler);
         recyclerView2.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter2 = new DoctorAdapter(MainActivity.doctorList,docs.this);
+        adapter2 = new DoctorAdapter(Main2Activity.doctorList,docs.this);
 
 
         recyclerView2.setLayoutManager(layoutManager);

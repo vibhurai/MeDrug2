@@ -1,5 +1,6 @@
 package com.kaustubh.medrug;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -10,6 +11,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -27,10 +30,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import static android.provider.Telephony.Mms.Part.TEXT;
+
 public class Bookapt extends AppCompatActivity {
+    public static String date;
     String strEditText1,strEditText2,strEditText3;
     interface_proc Interface_proc;
     Button b1 ;
@@ -50,6 +58,7 @@ public class Bookapt extends AppCompatActivity {
                 strEditText2 = data.getStringExtra("Name");
                 Button b2 = findViewById(R.id.Date);
                 b2.setText(strEditText2);
+                date=strEditText2;
 
             }
             if (resultCode==3){
@@ -104,55 +113,121 @@ public class Bookapt extends AppCompatActivity {
                 .build();
 
         Interface_proc = retrofit.create(interface_proc.class);
-//         checkavailbility();
+
+
 
         Button b4= findViewById(R.id.Book);
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Bookapt.this, "Booked successfully", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Bookapt.this, "Booked successfully", Toast.LENGTH_SHORT).show();
+                getdoc_id();
 
-                finish();
+                //finish();
+            }
+        });
+
+
+
+
+    }
+
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void check(int s_id) {
+        CharSequence dt =b2.getText();
+        LocalDate lt = LocalDate.parse(dt);
+        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
+        int x = sharedPreferences.getInt(TEXT, -1);
+        appointment app = new appointment(x,s_id,"nothing",String.valueOf(lt));
+        Call<appointment> call= Interface_proc.seeres(app);
+        call.enqueue(new Callback<appointment>() {
+            @Override
+            public void onResponse(Call<appointment> call, Response<appointment> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Bookapt.this, "The slot has been booked by someone else!", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+
+                    Toast.makeText(Bookapt.this, "Slot booked successfully!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<appointment> call, Throwable t) {
+                Toast.makeText(Bookapt.this, "Whoops! Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
             }
         });
 
 
     }
 
-    public void checkavailbility() {
-        String doc_name = (String) b1.getText();
-        final int[] doc_id = new int[1];
-        Call<List<doctors>> call;
-        call = Interface_proc.getdocs();
+    private int getschedule_id(int a , String b) {
+        CharSequence ti = b3.getText();
+
+        Call<List<schedule>> call = Interface_proc.get_schedule(a,b);
+        call.enqueue(new Callback<List<schedule>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<List<schedule>> call, Response<List<schedule>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;}
+                List<schedule> res_body = response.body();
+                for(schedule med : res_body)
+                {
+                    if(med.getTime().contains(String.valueOf(ti)))
+                        check(med.getId());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<schedule>> call, Throwable t) {
+                Toast.makeText(Bookapt.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return 0;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void get_day(int x) {
+        CharSequence dt =b2.getText();
+        LocalDate lt = LocalDate.parse(dt);
+        DayOfWeek d = DayOfWeek.from(lt);
+        getschedule_id(x, String.valueOf(d));
+    }
+
+    private void getdoc_id() {
+        Call<List<doctors>> call = Interface_proc.getdocs();
+        int flag =0;
         call.enqueue(new Callback<List<doctors>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<List<doctors>> call, Response<List<doctors>> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                List<doctors> doc= response.body();
-                for (doctors med : doc) {
-                   if(med.getName()==doc_name)
-                   {
-                       doc_id[0] = med.getId();
-                       break;}
-                }
-            }
+                    return;}
+                CharSequence x = b1.getText();
+                String a = x.toString();
+                List<doctors> res_body = response.body();
+                for(doctors med : res_body){
+                    if( med.getName().equals(a))
+                        get_day (med.getId());
+
+
+                }}
 
             @Override
             public void onFailure(Call<List<doctors>> call, Throwable t) {
-//                tv.setText(t.getMessage());
+
             }
         });
-
-
-
-
-
-
-
-
-
     }
 }

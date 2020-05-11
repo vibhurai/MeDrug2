@@ -10,8 +10,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
@@ -24,16 +29,20 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.provider.Telephony.Mms.Part.TEXT;
+
 public class MainActivity extends AppCompatActivity {
-//    https://www.youtube.com/watch?v=I-I67MNRQZM
+
+    //    https://www.youtube.com/watch?v=I-I67MNRQZM
     Button button;
     EditText user_name;
     EditText pass;
     interface_proc intr;
     int l_s=0;
-    protected static List<ExampleItem> exampleList;
-    protected static List<DocItem> doctorList;
-    interface_proc Interface_proc;
+    public static final String SHARED_PREFS = "sharedPrefs";
+    ProgressDialog dialog;
+    private long mLastClickTime,mla,mlb = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +64,25 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
             intr = retrofit.create(interface_proc.class);
-            fillExampleList();
-            fillDoctorList();
+
             button = (Button) findViewById(R.id.button2);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 3000) {
+                        return;
+                    }
+                    Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                    assert vibe != null;
+                    vibe.vibrate(100);
+                    dialog=new ProgressDialog(MainActivity.this);
+                    dialog.setTitle("Authenticating");
+                    dialog.setMessage("Please wait");
+                    dialog.show();
+
+                    mLastClickTime = SystemClock.elapsedRealtime();
                     int x = log();
+
 
 
                 }
@@ -71,17 +92,33 @@ public class MainActivity extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (SystemClock.elapsedRealtime() - mla < 3000) {
+                    return;
+                }
+                mla = SystemClock.elapsedRealtime();
+                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                assert vibe != null;
+                vibe.vibrate(100);
                 Intent i = new Intent(getApplicationContext(), register.class);
                 startActivity(i);
+
+
             }
         });
         }
 
       public void openActivity2() {
             Intent intent = new Intent(this, menu.class);
+            dialog.dismiss();
             startActivity(intent);
 //
         }
+
+    private void loaddata() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        int x = sharedPreferences.getInt(TEXT, -1);
+    }
         public int log()
         {
              user_name = (EditText) findViewById(R.id.Username);
@@ -99,13 +136,24 @@ public class MainActivity extends AppCompatActivity {
                     if (!response.isSuccessful()) {
 //                        tt.setText("Code: " + response.code());
                         Toast.makeText(MainActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                         return;
                     }
+                    login x = response.body();
+                    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    int y = Integer.parseInt(x.getPassword());
+                    editor.putInt(TEXT, y);
+                    editor.apply();
+//                    loaddata();
+                    //Toast.makeText(MainActivity.this, String.valueOf(x.getPassword()), Toast.LENGTH_SHORT).show();
+                    openActivity2();
                 }
 
                 @Override
                 public void onFailure(Call<login> call, Throwable t) {
-                   openActivity2();
+                    System.out.println("here");
+                    openActivity2();
                 }
             });
 
@@ -113,98 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-    private void fillExampleList() {
 
-        Gson gson = new GsonBuilder()
-                .setLenient().serializeNulls()
-                .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://devilish.pythonanywhere.com/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        exampleList = new ArrayList<>();
-
-        Interface_proc = retrofit.create(interface_proc.class);
-        Call<List<medicines>> call;
-
-        call = Interface_proc.getmeds();
-        call.enqueue(new Callback<List<medicines>>() {
-            @Override
-            public void onResponse(Call<List<medicines>> call, Response<List<medicines>> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Sori", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                List<medicines> doc = response.body();
-                int doc_id = 0;
-                assert doc != null;
-                for (medicines med : doc) {
-                    if (doc_id < 10) {
-                        String content = "";
-                        int x = med.getCategory();
-                        if (x == 1)
-                            content += "Fever";
-                        else if (x == 2)
-                            content += "Diabetes";
-                        else if (x == 3)
-                            content += "Cold";
-                        else if (x == 4)
-                            content += "General";
-                        else
-                            content += "Allergy";
-                        exampleList.add(new ExampleItem(R.drawable.drugs, med.getName(), content));
-                        doc_id++;
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<List<medicines>> call, Throwable t) {
-
-
-            }
-        });
-    }
-
-    protected void fillDoctorList() {
-
-        Gson gson = new GsonBuilder()
-                .setLenient().serializeNulls()
-                .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://devilish.pythonanywhere.com/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-       doctorList = new ArrayList<>();
-
-        Interface_proc = retrofit.create(interface_proc.class);
-        Call<List<doctors>> call;
-
-        call = Interface_proc.getdocs();
-        call.enqueue(new Callback<List<doctors>>() {
-            @Override
-            public void onResponse(Call<List<doctors>> call, Response<List<doctors>> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Sori", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                List<doctors> docList = response.body();
-
-                for (doctors doc : docList) {
-                    doctorList.add(new DocItem(R.drawable.doctortoo,doc.getName(),doc.getSpeciality(),doc.getDetails(), String.valueOf(doc.getPhone())));
-
-
-
-                }
-                System.out.println(doctorList);
-
-            }
-            @Override
-            public void onFailure(Call<List<doctors>> call, Throwable t) {
-
-
-            }
-        });
-    }
 
 
 

@@ -10,8 +10,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +31,8 @@ public class register extends AppCompatActivity {
     EditText snuid;
     EditText email;
     EditText pass;
+    ProgressDialog dialog;
+    long mLastClickTime = 0;
     interface_proc intr_reg;
 
 
@@ -55,6 +61,20 @@ public class register extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 3000) {
+                    return;
+                }
+                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                assert vibe != null;
+                vibe.vibrate(100);
+                dialog = new ProgressDialog(register.this);
+                dialog.setTitle("Authenticating");
+                dialog.setMessage("Please wait");
+                dialog.show();
+
+                mLastClickTime = SystemClock.elapsedRealtime();
+
                 register_user();
             }
         });

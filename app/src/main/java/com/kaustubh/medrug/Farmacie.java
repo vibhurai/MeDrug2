@@ -55,7 +55,7 @@ public class Farmacie extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter = new ExampleAdapter(MainActivity.exampleList);
+        adapter = new ExampleAdapter(Main2Activity.exampleList);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

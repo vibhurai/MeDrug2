@@ -53,6 +53,24 @@ public class menu extends AppCompatActivity {
             }
         });
 
+        Button b5 = findViewById(R.id.hist);
+        b5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), History.class);
+                startActivity(i);
+            }
+        });
+
+        Button b6 = findViewById(R.id.alerts);
+        b6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), alerts.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 }

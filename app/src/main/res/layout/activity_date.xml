@@ -6,112 +6,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/appointments">
-
-
-    <Button
-        android:id="@+id/da1"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-
+    android:background="@drawable/appoint">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_height="wrap_content"
+        android:layout_width="250dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
-        android:background="@drawable/g131"
-
-        android:drawablePadding="80dp"
-        android:fontFamily="@font/bahnschrift"
-        android:onClick="end"
-        android:paddingLeft="15dp"
-        android:text="Aaj"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/da2"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/da1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/g131"
-
-        android:drawablePadding="85dp"
-        android:fontFamily="@font/bahnschrift"
-        android:onClick="end"
-        android:paddingLeft="15dp"
-        android:text="Kal"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/da3"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/da2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="150dp"
+        android:id="@+id/recview"/>
 
 
-        android:background="@drawable/g131"
-        android:drawablePadding="50dp"
-        android:fontFamily="@font/bahnschrift"
-        android:onClick="end"
 
-        android:paddingLeft="15dp"
-        android:text="Parso"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/da4"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/da3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/g131"
-
-        android:drawablePadding="45dp"
-        android:fontFamily="@font/bahnschrift"
-        android:onClick="end"
-
-
-        android:paddingLeft="15dp"
-        android:text="Tarso"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/da5"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/da4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:alpha="1"
-
-        android:background="@drawable/g131"
-        android:drawablePadding="80dp"
-        android:fontFamily="@font/bahnschrift"
-        android:onClick="end"
-        android:paddingLeft="15dp"
-        android:text="Narso"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="17dp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

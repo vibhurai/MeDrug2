@@ -24,12 +24,14 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         ImageView imageView;
         TextView textView1;
         TextView textView2;
+        ImageView image;
 
         ExampleViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
             textView1 = itemView.findViewById(R.id.text_view1);
             textView2 = itemView.findViewById(R.id.text_view2);
+            image= itemView.findViewById(R.id.phbg);
         }
     }
 
@@ -53,6 +55,12 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         holder.imageView.setImageResource(currentItem.getImageResource());
         holder.textView1.setText(currentItem.getText1());
         holder.textView2.setText(currentItem.getText2());
+        if(currentItem.getQty()>30)
+            holder.image.setBackgroundResource(R.drawable.is);
+        else if(currentItem.getQty()>10)
+            holder.image.setBackgroundResource(R.drawable.ls);
+        else
+            holder.image.setBackgroundResource(R.drawable.oos);
     }
 
     @Override

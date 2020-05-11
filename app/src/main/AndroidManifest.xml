@@ -3,7 +3,8 @@
     package="com.kaustubh.medrug">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-        <activity android:name=".register"></activity>
+        <activity android:name=".alerts"></activity>
+        <activity android:name=".History" />
+        <activity android:name=".Main2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".register" />
         <activity android:name=".contact" />
         <activity
             android:name=".Farmacie"
@@ -23,13 +33,7 @@
         <activity android:name=".docs" />
         <activity android:name=".Bookapt" />
         <activity android:name=".menu" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

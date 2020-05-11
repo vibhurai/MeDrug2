@@ -40,7 +40,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
 
         @Override
         public void onClick(View v) {
-            System.out.println("Button Pressed "+String.valueOf(getAdapterPosition()));
+            System.out.println("Button Pressed "+getAdapterPosition());
             docclick.ondocclick(getAdapterPosition());
 
         }
@@ -81,7 +81,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
 
     public interface docclick
     {
-        void ondocclick( int position);
+        void ondocclick(int position);
     }
 
 
