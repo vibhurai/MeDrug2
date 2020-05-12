@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     EditText user_name;
     EditText pass;
     interface_proc intr;
+    static int ppaass;
     int l_s=0;
     public static final String SHARED_PREFS = "sharedPrefs";
     ProgressDialog dialog;
@@ -142,10 +143,11 @@ public class MainActivity extends AppCompatActivity {
                     login x = response.body();
                     SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    int y = Integer.parseInt(x.getPassword());
+                      int y = Integer.parseInt(x.getPassword());
                     editor.putInt(TEXT, y);
                     editor.apply();
 //                    loaddata();
+                    ppaass=y;
                     //Toast.makeText(MainActivity.this, String.valueOf(x.getPassword()), Toast.LENGTH_SHORT).show();
                     openActivity2();
                 }

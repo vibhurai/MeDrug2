@@ -1,25 +1,39 @@
 package com.kaustubh.medrug;
-
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.content.SharedPreferences;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.Context;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import static android.content.Context.MODE_PRIVATE;
+import static android.provider.Telephony.Mms.Part.TEXT;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
     private List<historyItem> exampleList;
+    int x;
 
 
 
@@ -29,7 +43,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         TextView textView2;
         TextView textView3;
         TextView textView4;
-
         Button btn;
         public HistoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -38,6 +51,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             textView3=itemView.findViewById(R.id.hist_time);
             textView4=itemView.findViewById(R.id.hist_stat);
             btn=itemView.findViewById(R.id.cancel);
+
         }
     }
 
@@ -48,6 +62,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     @Override
     public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.hist_card,parent, false);
+
         return new HistoryAdapter.HistoryViewHolder(v);
     }
 
@@ -73,9 +88,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
+                                x=exampleList.get(holder.getAdapterPosition()).getId();
                                 exampleList.remove(holder.getAdapterPosition());
                                 notifyItemRemoved(holder.getAdapterPosition());
-                                System.out.println(exampleList.get(holder.getAdapterPosition()).id);
+                                //System.out.println(x);
+                                delete(x);
                             }
                         })
 
@@ -96,6 +113,53 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     public int getItemCount() {
         return exampleList.size();
     }
+
+
+
+
+    public void delete(int x) {
+        Gson gson = new GsonBuilder()
+                .setLenient().serializeNulls()
+                .create();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://devilish.pythonanywhere.com/")
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        interface_proc intraa;
+
+
+        intraa = retrofit.create(interface_proc.class);
+
+        Call<Void> call = intraa.del(x);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+//                    Toast.makeText(Main2Activity.this, String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+
+//                    Toast.makeText(Main2Activity.this, "Your booking has been cancelled successfully!", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 
 
 }

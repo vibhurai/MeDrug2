@@ -33,8 +33,15 @@ public class date extends AppCompatActivity implements click{
         setContentView(R.layout.activity_date);
         LocalDate lt = LocalDate.now();
         for (int i=0;i<7;i++) {
-            String s1 = String.valueOf(lt.plusDays(i));
-            dates.add(s1);
+            if(lt.getDayOfWeek().toString().equalsIgnoreCase("Saturday")||lt.getDayOfWeek().toString().equalsIgnoreCase("Sunday")) {
+                lt=lt.plusDays(1);
+                continue;
+            }
+            else {
+                String s1 = String.valueOf(lt);
+                lt=lt.plusDays(1);
+                dates.add(s1);
+            }
         }
         RecyclerView date=findViewById(R.id.recview);
         adapter=new MyAdapter(dates,date.this);

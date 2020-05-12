@@ -172,6 +172,8 @@ public class Bookapt extends AppCompatActivity {
                 else {
 
                     Toast.makeText(Bookapt.this, "Slot booked successfully!", Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent();
+                    setResult(3,in);
                     finish();
                 }
 

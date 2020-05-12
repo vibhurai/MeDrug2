@@ -2,14 +2,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/events">
+    android:background="@drawable/events2">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="350dp"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="145dp"
+        android:paddingTop="20dp"
         android:layout_height="wrap_content"
         >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/ue"
+            android:layout_gravity="center_horizontal"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
