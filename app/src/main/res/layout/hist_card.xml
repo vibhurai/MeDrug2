@@ -11,14 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:background="@drawable/dnb"
+        android:background="@drawable/g131"
         android:contentDescription="TODO" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        android:padding="5dp">
 
 
         <TextView
@@ -41,7 +42,7 @@
             android:layout_below="@id/hist_doc"
 
             android:text="Line 2"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"/>
@@ -53,7 +54,7 @@
             android:layout_below="@id/hist_dat"
 
             android:text="Line 3"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"/>
@@ -77,7 +78,7 @@
             android:text="Cancel"
             android:textColor="#ffffff"
             android:id="@+id/cancel"
-            android:background="@drawable/ambulance_button_background"
+            android:background="@drawable/redb"
             android:layout_alignParentRight="true"/>
 
 
