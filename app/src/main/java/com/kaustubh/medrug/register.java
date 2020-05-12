@@ -109,12 +109,18 @@ public class register extends AppCompatActivity {
             @Override
 
             public void onResponse(Call<reg> call, Response<reg> response) {
+                dialog.dismiss();
                 if (!response.isSuccessful()) {
 //                    flag =0;
                     Toast.makeText(register.this, "Kindly Try again", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), register.class);
                     startActivity(i);
                     return;
+                }
+                else {
+                    Toast.makeText(register.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(), menu.class);
+                    startActivity(i);
                 }
 
             }
@@ -123,8 +129,7 @@ public class register extends AppCompatActivity {
             public void onFailure(Call<reg> call, Throwable t) {
 //                flag =1;
                 Toast.makeText(register.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getApplicationContext(), menu.class);
-                startActivity(i);
+
             }
         });
 

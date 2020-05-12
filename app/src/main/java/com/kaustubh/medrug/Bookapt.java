@@ -10,10 +10,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.os.Vibrator;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +48,8 @@ public class Bookapt extends AppCompatActivity {
     Button b1 ;
     Button b2;
     Button b3;
+    long mla=0;
+    ProgressDialog dialog;
 //    private Object interface_proc;
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -120,6 +126,18 @@ public class Bookapt extends AppCompatActivity {
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (SystemClock.elapsedRealtime() - mla < 3000) {
+                    return;
+                }
+                mla = SystemClock.elapsedRealtime();
+                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                assert vibe != null;
+                vibe.vibrate(100);
+                dialog=new ProgressDialog(Bookapt.this);
+                dialog.setTitle("Loading");
+                dialog.setMessage("Please wait");
+                dialog.show();
                 //Toast.makeText(Bookapt.this, "Booked successfully", Toast.LENGTH_SHORT).show();
                 getdoc_id();
 
@@ -146,6 +164,7 @@ public class Bookapt extends AppCompatActivity {
         call.enqueue(new Callback<appointment>() {
             @Override
             public void onResponse(Call<appointment> call, Response<appointment> response) {
+                dialog.dismiss();
                 if (!response.isSuccessful()) {
                     Toast.makeText(Bookapt.this, "The slot has been booked by someone else!", Toast.LENGTH_SHORT).show();
 

@@ -24,7 +24,8 @@
         android:textAllCaps="false"
         android:textColor="#008BF7"
         android:textSize="17dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
 
 

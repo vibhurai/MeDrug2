@@ -33,7 +33,7 @@ public class Tame extends AppCompatActivity implements click{
         //System.out.println(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")));
         times.clear();
         String date=LocalDate.now().toString();
-        if (Bookapt.date.equalsIgnoreCase(date)) {
+        if (Bookapt.date.equalsIgnoreCase(date)&&LocalTime.now().getHour()>=10) {
             hour= (LocalTime.now().getHour()+1);
             System.out.println("hier");
         }

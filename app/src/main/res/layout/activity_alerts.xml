@@ -1,18 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".alerts"
+    android:fillViewport="true"
     android:background="@drawable/events">
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="300dp"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="350dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="145dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:id="@+id/alerts_rec_vw"
-        />
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/ali"
+            android:layout_gravity="center_horizontal"/>
 
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/ali"
+            android:layout_gravity="center_horizontal"
+            />
+
+
+
+
+
+
+
+         </LinearLayout>
+    </ScrollView>
+
