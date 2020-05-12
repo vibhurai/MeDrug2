@@ -75,6 +75,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                                 // Continue with delete operation
                                 exampleList.remove(holder.getAdapterPosition());
                                 notifyItemRemoved(holder.getAdapterPosition());
+                                System.out.println(exampleList.get(holder.getAdapterPosition()).id);
                             }
                         })
 

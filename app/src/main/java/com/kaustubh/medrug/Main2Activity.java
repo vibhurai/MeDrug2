@@ -3,6 +3,7 @@ package com.kaustubh.medrug;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,19 +13,32 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Main2Activity extends AppCompatActivity {
     protected static List<ExampleItem> exampleList;
     protected static List<DocItem> doctorList;
+    protected static ArrayList<historyItem> HistList = new ArrayList<>();
+    public static final String SWITCH1 = "switch1";
+    public static final String SHARED_PREFS_HIST = "ssharedPrefs";
+    public static final String TEXT_HIST = "tsext";
+
+    ArrayList<Integer> ids=new ArrayList<>();
+
     AnimationDrawable load;
+    interface_proc intra;
 
     interface_proc Interface_proc;
 
@@ -41,6 +55,7 @@ public class Main2Activity extends AppCompatActivity {
 
         fillExampleList();
         fillDoctorList();
+        fillHistoryList();
         new Handler().postDelayed((new Runnable() {
             @Override
             public void run() {
@@ -64,6 +79,118 @@ public class Main2Activity extends AppCompatActivity {
 
 
     }
+
+    private void fillHistoryList() {
+        Gson gson = new GsonBuilder()
+                .setLenient().serializeNulls()
+                .create();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://devilish.pythonanywhere.com/")
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        intra = retrofit.create(interface_proc.class);
+        addappoi();
+    }
+    private void addappoi() {
+        Call<List<appointment>> call = intra.getappoi(185);
+        call.enqueue(new Callback<List<appointment>>() {
+            @Override
+            public void onResponse(Call<List<appointment>> call, Response<List<appointment>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Main2Activity.this, String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    List<appointment> b = response.body();
+                    for(appointment med : b){
+                        String x =getdoc(med.getScheduled());
+                        String y  = gettim(med.getScheduled());
+                        HistList.add(new historyItem(x, med.getDate(), y, "Confirmed",med.getScheduled()));
+                    }
+
+                }
+                System.out.println(HistList);
+            }
+
+            @Override
+            public void onFailure(Call<List<appointment>> call, Throwable t) {
+
+            }
+        });
+    }
+    @NotNull
+    private String getdoc(int scheduled) {
+        String s="";
+        Call<s_d> call = intra.getdocnm(scheduled);
+        call.enqueue(new Callback<s_d>() {
+            @Override
+            public void onResponse(Call<s_d> call, Response<s_d> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Main2Activity.this, String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+
+                }
+                s_d x = response.body();
+                String d = x.getDoc();
+//                tt.append(d);
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_HIST, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    String d = x.getPassword());
+                editor.putString(TEXT_HIST, d);
+                editor.apply();
+            }
+
+
+            @Override
+            public void onFailure(Call<s_d> call, Throwable t) {
+
+            }
+        });
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_HIST, MODE_PRIVATE);
+        String y  = sharedPreferences.getString(TEXT_HIST, "");
+        return y;
+    }
+    private String gettim(int scheduled) {
+//        String s="";
+        Call<s_d> call = intra.getdocnm(scheduled);
+        call.enqueue(new Callback<s_d>() {
+            @Override
+            public void onResponse(Call<s_d> call, Response<s_d> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Main2Activity.this, String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+
+                }
+                s_d x = response.body();
+                String d = x.getDoc();
+                String a = x.getTime();
+//                tt.append(d);
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_HIST, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    String d = x.getPassword());
+//                editor.putString(TEXT, d);
+                editor.putString(SWITCH1, a);
+                editor.apply();
+            }
+
+
+            @Override
+            public void onFailure(Call<s_d> call, Throwable t) {
+
+            }
+        });
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_HIST, MODE_PRIVATE);
+        String y  = sharedPreferences.getString(SWITCH1, "");
+        return y;
+    }
+
     @Override
     protected void onStart() {
 
@@ -166,4 +293,6 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
     }
+
+
 }

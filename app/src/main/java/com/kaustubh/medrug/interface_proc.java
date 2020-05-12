@@ -31,6 +31,12 @@ public interface interface_proc {
     @GET("schedule/{id}/{day}/?format=json")
     Call<List<schedule>> get_schedule(@Path("id") int id, @Path("day") String day);
 
+    @GET("appointment/{id}/?format=json")
+    Call<List<appointment>> getappoi(@Path("id") int id);
+
+    @GET("getScheduleData/{id}?format=json")
+    Call <s_d> getdocnm(@Path("id") int id);
+
     @POST("appointment/")
     Call<appointment> seeres(@Body appointment app);
 

@@ -4,14 +4,16 @@ public class historyItem {
     String Date;
     String Time;
     String Status;
+    int id;
 
 
-    public historyItem(String Doctor, String Date, String time, String status){
+    public historyItem(String Doctor, String Date, String time, String status, int id){
 
         this.Date=Date;
         this.Doctor=Doctor;
         this.Time=time;
         this.Status=status;
+        this.id=id;
     }
 
     String getDoctor() {
@@ -27,5 +29,7 @@ public class historyItem {
     String getStatus() {
         return Status;
     }
+
+    int getId(){return id;}
 
 }
