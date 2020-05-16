@@ -1,4 +1,4 @@
-# MeDrug2
+# MeDrug
 A ready to be implemented application at a hospital or a pharmacy with the following features:
 1. Appointment booking and cancellations
 2. Emergency button for calling the ambulance
