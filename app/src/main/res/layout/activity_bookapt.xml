@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/appoint">
+
+
+
+
+    <Button
+        android:id="@+id/Date"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/Name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/round_shape"
+        android:drawableLeft="@drawable/calendar"
+        android:drawablePadding="50dp"
+        android:fontFamily="@font/bahnschrift"
+        android:paddingLeft="15dp"
+        android:text="Date"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#008BF7"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/time"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/Date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/round_shape"
+        android:drawableLeft="@drawable/clock"
+        android:drawablePadding="50dp"
+        android:fontFamily="@font/bahnschrift"
+        android:paddingLeft="15dp"
+        android:text="Time"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#008BF7"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/Book"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/time"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+
+
+        android:background="@drawable/round_button"
+        android:drawablePadding="50dp"
+        android:fontFamily="@font/bahnschrift"
+        android:paddingLeft="15dp"
+
+        android:text="Check Availability"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+
+
+    <Button
+        android:id="@+id/Name"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="190dp"
+        android:background="@drawable/round_shape"
+
+        android:drawablePadding="45dp"
+        android:fontFamily="@font/bahnschrift"
+        android:paddingLeft="15dp"
+        android:drawableLeft="@drawable/name"
+
+
+        android:text="Select Doctor"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#008BF7"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

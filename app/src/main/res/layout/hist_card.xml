@@ -1,0 +1,86 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardMaxElevation="0dp"
+    android:layout_marginBottom="40dp"
+    app:cardCornerRadius="6dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:background="@drawable/g131"
+        android:contentDescription="TODO" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_marginBottom="30dp"
+        android:padding="5dp">
+
+
+        <TextView
+            android:id="@+id/hist_doc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="10dp"
+
+            android:text="Line 1"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hist_dat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hist_doc"
+
+            android:text="Line 2"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/hist_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hist_dat"
+
+            android:text="Line 3"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/hist_stat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hist_time"
+            android:textColor="@color/Green"
+
+            android:text="Line 4"
+
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Cancel"
+            android:textColor="#ffffff"
+            android:id="@+id/cancel"
+            android:background="@drawable/redb"
+            android:layout_alignParentRight="true"/>
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

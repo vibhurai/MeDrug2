@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/appoint"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".docs"
+
+    >
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/doctor_recycler"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+
+        android:layout_marginBottom="40dp"
+        android:hapticFeedbackEnabled="true"
+        android:scrollbars="vertical" />
+
+
+</RelativeLayout>
