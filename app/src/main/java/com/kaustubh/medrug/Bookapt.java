@@ -43,7 +43,8 @@ import static android.provider.Telephony.Mms.Part.TEXT;
 
 public class Bookapt extends AppCompatActivity {
     public static String date;
-    String strEditText1,strEditText2,strEditText3;
+    String strEditText1,strEditText2;
+    static String[] details=new String[3];
     interface_proc Interface_proc;
     Button b1 ;
     Button b2;
@@ -56,23 +57,19 @@ public class Bookapt extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == 1) {
-                strEditText1 = data.getStringExtra("Name");
+               details[0]= strEditText1 = data.getStringExtra("Name");
                 Button b2 = findViewById(R.id.Name);
                 b2.setText(strEditText1);
             }
             if (resultCode==2){
-                strEditText2 = data.getStringExtra("Name");
+                details[1]=strEditText2 = data.getStringExtra("Name");
                 Button b2 = findViewById(R.id.Date);
+
                 b2.setText(strEditText2);
                 date=strEditText2;
 
             }
-            if (resultCode==3){
-                strEditText3 = data.getStringExtra("Name");
-                Button b2 = findViewById(R.id.time);
-                b2.setText(strEditText3);
 
-            }
         }
     }
 
@@ -102,14 +99,7 @@ public class Bookapt extends AppCompatActivity {
 
         });
 
-        b3= findViewById(R.id.time);
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Tame.class);
-                startActivityForResult(i,1);
-            }
-        });
+
         Gson gson = new GsonBuilder()
                 .setLenient().serializeNulls()
                 .create();
@@ -122,28 +112,36 @@ public class Bookapt extends AppCompatActivity {
 
 
 
-        Button b4= findViewById(R.id.Book);
-        b4.setOnClickListener(new View.OnClickListener() {
+//        Button b4= findViewById(R.id.Book);
+        b3= findViewById(R.id.Book);
+        b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (SystemClock.elapsedRealtime() - mla < 3000) {
-                    return;
-                }
-                mla = SystemClock.elapsedRealtime();
-                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-                assert vibe != null;
-                vibe.vibrate(100);
-                dialog=new ProgressDialog(Bookapt.this);
-                dialog.setTitle("Loading");
-                dialog.setMessage("Please wait");
-                dialog.show();
-                //Toast.makeText(Bookapt.this, "Booked successfully", Toast.LENGTH_SHORT).show();
-                getdoc_id();
-
-                //finish();
+                Intent i = new Intent(getApplicationContext(), Tame.class);
+                startActivityForResult(i,1);
             }
         });
+//        b4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (SystemClock.elapsedRealtime() - mla < 3000) {
+//                    return;
+//                }
+//                mla = SystemClock.elapsedRealtime();
+//                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+//                assert vibe != null;
+//                vibe.vibrate(100);
+//                dialog=new ProgressDialog(Bookapt.this);
+//                dialog.setTitle("Loading");
+//                dialog.setMessage("Please wait");
+//                dialog.show();
+//                //Toast.makeText(Bookapt.this, "Booked successfully", Toast.LENGTH_SHORT).show();
+//                getdoc_id();
+//
+//                //finish();
+//            }
+//        });
 
 
 

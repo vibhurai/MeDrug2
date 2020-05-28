@@ -1,5 +1,5 @@
 package com.kaustubh.medrug;
-
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
+class TameAdapter extends RecyclerView.Adapter<TameAdapter.MyViewHolder> {
     private List<String> mDataset;
-    private click docclick;
+
+
+    private int checked_pos,prev=-1;
+
 
 
 
@@ -21,47 +25,63 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         // each data item is just a string in this case
         TextView textView;
         ImageView lol;
+
         MyViewHolder(View v) {
             super(v);
             textView=v.findViewById(R.id.gentext);
             lol=v.findViewById(R.id.heil);
+
             v.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            docclick.act(getAdapterPosition());
-//            System.out.println(mDataset.get(getAdapterPosition()));
-
-
+//            docclick.act(getAdapterPosition());
+            System.out.println(mDataset.get(getAdapterPosition()));
+            if(checked_pos==-1) {
+                checked_pos = getAdapterPosition();
+                notifyItemChanged(checked_pos);
+                Bookapt.details[2]=(mDataset.get(getAdapterPosition()));
+            }
+            else
+            {
+                prev=checked_pos;
+                checked_pos=getAdapterPosition();
+                notifyItemChanged(checked_pos);
+                notifyItemChanged(prev);
+                Bookapt.details[2]=(mDataset.get(getAdapterPosition()));
+            }
         }
     }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<String> myDataset, date docs) {
+    public TameAdapter(ArrayList<String> myDataset, Tame docs) {
         mDataset = myDataset;
-        docclick= docs;
+
+
     }
-
-
 
     // Create new views (invoked by the layout manager)
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic, parent, false);
-        return new MyAdapter.MyViewHolder(v);
+        return new TameAdapter.MyViewHolder(v);
 
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        if(position==prev)
+        {
+
+            holder.lol.setBackgroundResource(R.drawable.button);
+        }
+        if(position==checked_pos)
+        {
+            holder.lol.setBackgroundResource(R.drawable.avlbg);
+        }
         String currentItem = mDataset.get(position);
         holder.textView.setText(currentItem);
-
-
-
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -70,9 +90,3 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return mDataset.size();
     }
 }
-
-interface click{
-    void act(int pos);
-
-}
-

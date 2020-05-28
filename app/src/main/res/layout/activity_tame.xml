@@ -2,8 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/appoint">
@@ -12,8 +11,28 @@
         android:layout_height="wrap_content"
         android:layout_width="250dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginBottom="100dp"
+
         android:id="@+id/timer"/>
+
+    <Button
+        android:id="@+id/Confirm"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/round_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:drawablePadding="50dp"
+        android:fontFamily="@font/bahnschrift"
+        android:paddingLeft="15dp"
+        android:text="Confirm"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

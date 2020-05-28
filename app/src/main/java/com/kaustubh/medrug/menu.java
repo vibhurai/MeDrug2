@@ -53,6 +53,7 @@ public class menu extends AppCompatActivity {
             }
         });
 
+
         Button b2 = findViewById(R.id.book_appointments_button);
         b2.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -17,19 +17,30 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
-public class Tame extends AppCompatActivity implements click{
+public class Tame extends AppCompatActivity{
     public ArrayList<String> times=new ArrayList<>();
-    MyAdapter adapter;
+    TameAdapter adapter;
     int hour;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tame);
+        Button b1=findViewById(R.id.Confirm);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Book appointment
+                System.out.println(Arrays.toString(Bookapt.details));
+                finish();
+            }
+        });
         //System.out.println(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")));
         times.clear();
         String date=LocalDate.now().toString();
@@ -44,23 +55,16 @@ public class Tame extends AppCompatActivity implements click{
         }
         while (hour<18)
         {
+            //Addieren Sie Oeffnugszeiten hier.
             times.add(hour+":00");
             hour++;
         }
         RecyclerView time=findViewById(R.id.timer);
-        adapter=new MyAdapter(times,Tame.this);
+        adapter=new TameAdapter(times,Tame.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         time.setLayoutManager(layoutManager);
         time.setAdapter(adapter);
     }
 
-    @Override
-    public void act(int pos) {
-        Intent in = new Intent();
-        in.putExtra("Name",times.get(pos));
-        setResult(3,in);
-        finish();
 
-
-    }
 }
