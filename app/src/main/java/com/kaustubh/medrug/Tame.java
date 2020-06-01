@@ -38,7 +38,11 @@ public class Tame extends AppCompatActivity{
             public void onClick(View v) {
                 //Book appointment
                 System.out.println(Arrays.toString(Bookapt.details));
+                //HANDLE THE DATA HERE
+                Intent in = new Intent();
+                setResult(4,in);
                 finish();
+
             }
         });
         //System.out.println(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")));
@@ -56,6 +60,16 @@ public class Tame extends AppCompatActivity{
         while (hour<18)
         {
             //Addieren Sie Oeffnugszeiten hier.
+            /*
+            *
+            *
+            *
+            * KAUSTUBH
+            * POPULATE THE ARRAY OF AVAILABLE TIME SLOTS HERE
+            *
+            *
+            *
+            * */
             times.add(hour+":00");
             hour++;
         }

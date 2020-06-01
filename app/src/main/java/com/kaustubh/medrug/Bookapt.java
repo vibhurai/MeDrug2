@@ -69,8 +69,11 @@ public class Bookapt extends AppCompatActivity {
                 date=strEditText2;
 
             }
+            if (resultCode==4) {
+                finish();
+            }
+            }
 
-        }
     }
 
     @Override
@@ -147,9 +150,6 @@ public class Bookapt extends AppCompatActivity {
 
 
     }
-
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void check(int s_id) {

@@ -47,8 +47,7 @@ public class menu extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_DIAL);
-                i.setData(Uri.parse("tel:9428394228"));
+                Intent i=new Intent(getApplicationContext(), loc.class);
                 startActivity(i);
             }
         });
