@@ -9,6 +9,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -44,6 +45,7 @@ import static android.provider.Telephony.Mms.Part.TEXT;
 public class Bookapt extends AppCompatActivity {
     public static String date;
     String strEditText1,strEditText2;
+    public static final String[] TEXT_HIST = {"text","wer","wer","wer","wer","wer","wer","wer","wer","wer","wer","wer"};
     static String[] details=new String[3];
     interface_proc Interface_proc;
     Button b1 ;
@@ -109,10 +111,18 @@ public class Bookapt extends AppCompatActivity {
         Gson gson = new GsonBuilder()
                 .setLenient().serializeNulls()
                 .create();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://devilish.pythonanywhere.com/")
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
 
         Interface_proc = retrofit.create(interface_proc.class);
 
@@ -123,8 +133,22 @@ public class Bookapt extends AppCompatActivity {
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Tame.class);
-                startActivityForResult(i,1);
+                getdoc_id();
+                int z=0;
+                while (z<Bookapt.TEXT_HIST.length)
+                {
+
+                    SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(Bookapt.TEXT_HIST), MODE_PRIVATE);
+                    String x = sharedPreferences.getString(Bookapt.TEXT_HIST[z], "asd");
+                    System.out.println("DEKHO : " + x);
+//            getdoc_id();
+
+//                    times.add(x);
+                    z++;
+                }
+
+//                Intent i = new Intent(getApplicationContext(), Tame.class);
+//                startActivityForResult(i,1);
             }
         });
 //        b4.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +176,78 @@ public class Bookapt extends AppCompatActivity {
 
 
 
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void gettimeslots(int a , String b, String c)
+    {
+        Call<List<schedule>> call = Interface_proc.get_schedule(a,b,c);
+        call.enqueue(new Callback<List<schedule>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<List<schedule>> call, Response<List<schedule>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;}
+                List<schedule> res_body = response.body();
+                res_body.size();
+                for(int i=0;i<res_body.size();i++)
+                {
+                    schedule med = res_body.get(i);
+                    if(med.isSlot_booked()==false)
+                    {
+                        SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(TEXT_HIST), MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        String t= med.getTime();
+                        editor.putString(TEXT_HIST[i], t);
+                        editor.apply();
+                        System.out.println(t);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<schedule>> call, Throwable t) {
+                Toast.makeText(Bookapt.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    private void getdoc_id() {
+        Call<List<doctors>> call = Interface_proc.getdocs();
+        int flag =0;
+        call.enqueue(new Callback<List<doctors>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<List<doctors>> call, Response<List<doctors>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;}
+                CharSequence x = Bookapt.details[0];
+                String a = x.toString();
+                List<doctors> res_body = response.body();
+                for(doctors med : res_body){
+                    if( med.getName().equals(a))
+                        get_day (med.getId());
+
+
+                }}
+
+            @Override
+            public void onFailure(Call<List<doctors>> call, Throwable t) {
+
+            }
+        });
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void get_day(int x) {
+        CharSequence dt =Bookapt.details[1];
+        LocalDate lt = LocalDate.parse(dt);
+        DayOfWeek d = DayOfWeek.from(lt);
+        gettimeslots(x, String.valueOf(d), String.valueOf(dt));
     }
 
 

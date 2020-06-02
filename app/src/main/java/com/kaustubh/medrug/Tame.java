@@ -79,10 +79,7 @@ public class Tame extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 //                //Book appointment
-//                System.out.println(Arrays.toString(Bookapt.details));
-//                //HANDLE THE DATA HERE
 //
-//                finish();
                 if (SystemClock.elapsedRealtime() - mla < 3000) {
                     return;
                 }
@@ -96,40 +93,11 @@ public class Tame extends AppCompatActivity{
                 dialog.show();
 //                Toast.makeText(Tame.this, "Booked successfully", Toast.LENGTH_SHORT).show();
                 getdoc_id();
-//                menu.addappoi();
-
-
             }
         });
         //System.out.println(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")));
         times.clear();
-        String date=LocalDate.now().toString();
-        if (Bookapt.date.equalsIgnoreCase(date)&&LocalTime.now().getHour()>=10) {
-            hour= (LocalTime.now().getHour()+1);
-            System.out.println("hier");
-        }
-        else{
-            hour=10;
-            System.out.println(date);
-            System.out.println(Bookapt.date);
-        }
-        while (hour<18)
-        {
-            //Addieren Sie Oeffnugszeiten hier.
-            /*
-            *
-            *
-            *
-
-            * KAUSTUBH
-            * POPULATE THE ARRAY OF AVAILABLE TIME SLOTS HERE
-            *
-            *
-            *
-            * */
-            times.add(hour+":00");
-            hour++;
-        }
+        filltime();
         RecyclerView time=findViewById(R.id.timer);
         adapter=new TameAdapter(times,Tame.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -236,6 +204,31 @@ public class Tame extends AppCompatActivity{
 
             }
         });
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void filltime(){
+        String date=LocalDate.now().toString();
+        if (Bookapt.date.equalsIgnoreCase(date)&&LocalTime.now().getHour()>=10) {
+            hour= (LocalTime.now().getHour()+1);
+            System.out.println("hier");
+        }
+        else{
+            hour=10;
+            System.out.println(date);
+            System.out.println(Bookapt.date);
+        }
+        int z=0;
+        while (z<Bookapt.TEXT_HIST.length)
+        {
+
+            SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(Bookapt.TEXT_HIST), MODE_PRIVATE);
+            String x = sharedPreferences.getString(Bookapt.TEXT_HIST[z], "asd");
+            System.out.println("DEKHO : " + x);
+//            getdoc_id();
+
+            times.add(x);
+            z++;
+        }
     }
 
 
