@@ -33,7 +33,7 @@ public class menu extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 3) {
-            fillHistoryList();
+            System.out.println("hello there");fillHistoryList();
         }
     }
 
@@ -123,7 +123,7 @@ public class menu extends AppCompatActivity {
         intra = retrofit.create(interface_proc.class);
         addappoi();
     }
-    private void addappoi() {
+    public void addappoi() {
         HistList.clear();
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
         int x = sharedPreferences.getInt(TEXT, -1);

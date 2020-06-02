@@ -70,8 +70,11 @@ public class Bookapt extends AppCompatActivity {
 
             }
             if (resultCode==4) {
+                Intent i = new Intent();
+                setResult(3,i);
                 finish();
             }
+
             }
 
     }
@@ -151,102 +154,5 @@ public class Bookapt extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void check(int s_id) {
-        CharSequence dt =b2.getText();
-        LocalDate lt = LocalDate.parse(dt);
-        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
-        int x = sharedPreferences.getInt(TEXT, -1);
-        appointment app = new appointment(x,s_id,"nothing",String.valueOf(lt));
-        Call<appointment> call= Interface_proc.seeres(app);
-        call.enqueue(new Callback<appointment>() {
-            @Override
-            public void onResponse(Call<appointment> call, Response<appointment> response) {
-                dialog.dismiss();
-                if (!response.isSuccessful()) {
-                    Toast.makeText(Bookapt.this, "The slot has been booked by someone else!", Toast.LENGTH_SHORT).show();
 
-                }
-                else {
-
-                    Toast.makeText(Bookapt.this, "Slot booked successfully!", Toast.LENGTH_SHORT).show();
-                    Intent in = new Intent();
-                    setResult(3,in);
-                    finish();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<appointment> call, Throwable t) {
-                Toast.makeText(Bookapt.this, "Whoops! Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
-
-    private int getschedule_id(int a , String b, String c) {
-        CharSequence ti = b3.getText();
-
-        Call<List<schedule>> call = Interface_proc.get_schedule(a,b,c);
-        call.enqueue(new Callback<List<schedule>>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<List<schedule>> call, Response<List<schedule>> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
-                    return;}
-                List<schedule> res_body = response.body();
-                for(schedule med : res_body)
-                {
-                    if(med.getTime().contains(String.valueOf(ti)))
-                        check(med.getId());
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<List<schedule>> call, Throwable t) {
-                Toast.makeText(Bookapt.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        return 0;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void get_day(int x) {
-        CharSequence dt =b2.getText();
-        LocalDate lt = LocalDate.parse(dt);
-        DayOfWeek d = DayOfWeek.from(lt);
-        getschedule_id(x, String.valueOf(d), String.valueOf(dt));
-    }
-
-    private void getdoc_id() {
-        Call<List<doctors>> call = Interface_proc.getdocs();
-        int flag =0;
-        call.enqueue(new Callback<List<doctors>>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<List<doctors>> call, Response<List<doctors>> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
-                    return;}
-                CharSequence x = b1.getText();
-                String a = x.toString();
-                List<doctors> res_body = response.body();
-                for(doctors med : res_body){
-                    if( med.getName().equals(a))
-                        get_day (med.getId());
-
-
-                }}
-
-            @Override
-            public void onFailure(Call<List<doctors>> call, Throwable t) {
-
-            }
-        });
-    }
 }

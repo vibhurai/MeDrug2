@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.sql.SQLOutput;
+import java.util.Arrays;
 
 public class loc extends FragmentActivity implements OnMapReadyCallback {
 
@@ -89,7 +90,7 @@ public class loc extends FragmentActivity implements OnMapReadyCallback {
                     }
                     loca[0] = String.valueOf(latitude);
                     loca[1] = String.valueOf(longitude);
-                    System.out.println(loca);
+                    System.out.println(Arrays.toString(loca));
                     Toast.makeText(loc.this,"HELP IS ON THE WAY!",Toast.LENGTH_SHORT).show();
                     btn.setText("Call front desk instead");
                     flag2=1;
