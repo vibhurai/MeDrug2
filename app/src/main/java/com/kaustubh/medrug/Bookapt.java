@@ -37,6 +37,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +53,7 @@ public class Bookapt extends AppCompatActivity {
     Button b1 ;
     Button b2;
     Button b3;
+    int hour;
     long mla=0;
     ProgressDialog dialog;
 //    private Object interface_proc;
@@ -133,45 +136,21 @@ public class Bookapt extends AppCompatActivity {
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getdoc_id();
-                int z=0;
-                while (z<Bookapt.TEXT_HIST.length)
-                {
-
-                    SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(Bookapt.TEXT_HIST), MODE_PRIVATE);
-                    String x = sharedPreferences.getString(Bookapt.TEXT_HIST[z], "asd");
-                    System.out.println("DEKHO : " + x);
-//            getdoc_id();
-
-//                    times.add(x);
-                    z++;
+                if (SystemClock.elapsedRealtime() - mla < 3000) {
+                    return;
                 }
-
-//                Intent i = new Intent(getApplicationContext(), Tame.class);
-//                startActivityForResult(i,1);
+                mla = SystemClock.elapsedRealtime();
+                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                assert vibe != null;
+                vibe.vibrate(100);
+                dialog=new ProgressDialog(Bookapt.this);
+                dialog.setTitle("Loading");
+                dialog.setMessage("Please wait");
+                dialog.show();
+                getdoc_id();
             }
         });
-//        b4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
 //
-//                if (SystemClock.elapsedRealtime() - mla < 3000) {
-//                    return;
-//                }
-//                mla = SystemClock.elapsedRealtime();
-//                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-//                assert vibe != null;
-//                vibe.vibrate(100);
-//                dialog=new ProgressDialog(Bookapt.this);
-//                dialog.setTitle("Loading");
-//                dialog.setMessage("Please wait");
-//                dialog.show();
-//                //Toast.makeText(Bookapt.this, "Booked successfully", Toast.LENGTH_SHORT).show();
-//                getdoc_id();
-//
-//                //finish();
-//            }
-//        });
 
 
 
@@ -190,19 +169,36 @@ public class Bookapt extends AppCompatActivity {
                     return;}
                 List<schedule> res_body = response.body();
                 res_body.size();
+                Tame.times.clear();
                 for(int i=0;i<res_body.size();i++)
                 {
                     schedule med = res_body.get(i);
-                    if(med.isSlot_booked()==false)
+
+
+                    if(!med.isSlot_booked())
                     {
                         SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(TEXT_HIST), MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         String t= med.getTime();
                         editor.putString(TEXT_HIST[i], t);
                         editor.apply();
-                        System.out.println(t);
+                        String date=LocalDate.now().toString();
+                        if (details[1].equalsIgnoreCase(date)) {
+                            if(Integer.parseInt(t.substring(0,1))<=LocalTime.now().getHour())
+                            {
+                                continue;
+                            }
+                        }
+
+                        Tame.times.add(t.substring(0,5));
                     }
+
+
                 }
+                System.out.println(Tame.times);
+                Intent i=new Intent(getApplicationContext(),Tame.class);
+                dialog.dismiss();
+                startActivityForResult(i,1);
 
 
             }
@@ -234,7 +230,10 @@ public class Bookapt extends AppCompatActivity {
                         get_day (med.getId());
 
 
-                }}
+                }
+
+
+            }
 
             @Override
             public void onFailure(Call<List<doctors>> call, Throwable t) {

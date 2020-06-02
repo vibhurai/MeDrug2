@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -43,9 +45,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import static android.provider.Telephony.Mms.Part.TEXT;
 
 public class Tame extends AppCompatActivity{
-    public ArrayList<String> times=new ArrayList<>();
+    public static ArrayList<String> times=new ArrayList<>();
     TameAdapter adapter;
-    int hour;
     interface_proc Interface_proc;
     long mla=0;
     ProgressDialog dialog;
@@ -56,6 +57,7 @@ public class Tame extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tame);
+        System.out.println(times);
 
         Gson gson = new GsonBuilder()
                 .setLenient().serializeNulls()
@@ -96,8 +98,7 @@ public class Tame extends AppCompatActivity{
             }
         });
         //System.out.println(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")));
-        times.clear();
-        filltime();
+
         RecyclerView time=findViewById(R.id.timer);
         adapter=new TameAdapter(times,Tame.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -164,7 +165,7 @@ public class Tame extends AppCompatActivity{
             }
 
             @Override
-            public void onFailure(Call<List<schedule>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<schedule>> call, @NotNull Throwable t) {
                 Toast.makeText(Tame.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -205,31 +206,7 @@ public class Tame extends AppCompatActivity{
             }
         });
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    void filltime(){
-        String date=LocalDate.now().toString();
-        if (Bookapt.date.equalsIgnoreCase(date)&&LocalTime.now().getHour()>=10) {
-            hour= (LocalTime.now().getHour()+1);
-            System.out.println("hier");
-        }
-        else{
-            hour=10;
-            System.out.println(date);
-            System.out.println(Bookapt.date);
-        }
-        int z=0;
-        while (z<Bookapt.TEXT_HIST.length)
-        {
 
-            SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(Bookapt.TEXT_HIST), MODE_PRIVATE);
-            String x = sharedPreferences.getString(Bookapt.TEXT_HIST[z], "asd");
-            System.out.println("DEKHO : " + x);
-//            getdoc_id();
-
-            times.add(x);
-            z++;
-        }
-    }
 
 
 }

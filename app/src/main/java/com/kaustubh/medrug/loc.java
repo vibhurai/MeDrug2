@@ -14,7 +14,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +39,8 @@ public class loc extends FragmentActivity implements OnMapReadyCallback {
     LocationListener locationListener;
     double latitude, longitude; int flag2;
     String[] loca=new String[2];
+    String[] phoneNumber = {"7984745534","9911290551","9871792791","8510820248"};
+    String message;
 
 
     @Override
@@ -55,6 +59,17 @@ public class loc extends FragmentActivity implements OnMapReadyCallback {
                 finish();
             }
         }
+        if (requestCode==2)
+        {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                    Intent smsIntent = new Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:"+phoneNumber[0]+";"+phoneNumber[1]+";"+phoneNumber[2]));
+                    smsIntent.putExtra("sms_body", message);
+                    startActivity(smsIntent);
+                }
+                }
+
+        }
     }
 
 
@@ -62,6 +77,8 @@ public class loc extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loc);
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -76,31 +93,50 @@ public class loc extends FragmentActivity implements OnMapReadyCallback {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (flag2==1)
-                {
-                    Intent i=new Intent(Intent.ACTION_DIAL);
+                if (flag2 == 1) {
+                    Intent i = new Intent(Intent.ACTION_DIAL);
                     i.setData(Uri.parse("tel:9865327451"));
                     startActivity(i);
                 }
-                if (flag2==0) {
-                    if(latitude==0.0)
-                    {
-                        Toast.makeText(loc.this,"Location not found, try restarting",Toast.LENGTH_SHORT).show();
+                if (flag2 == 0) {
+                    if (latitude == 0.0) {
+                        Toast.makeText(loc.this, "Location not found, try restarting", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     loca[0] = String.valueOf(latitude);
                     loca[1] = String.valueOf(longitude);
                     System.out.println(Arrays.toString(loca));
-                    Toast.makeText(loc.this,"HELP IS ON THE WAY!",Toast.LENGTH_SHORT).show();
+
+                    SmsManager smsManager = SmsManager.getDefault();
+                    message = "Click on the URL to get the location of the patient " + "https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude;
+                    sendmessage();
+
+
+                    Toast.makeText(loc.this, "HELP IS ON THE WAY!", Toast.LENGTH_SHORT).show();
                     btn.setText("Call front desk instead");
-                    flag2=1;
+                    flag2 = 1;
                 }
-
-
-
-
             }
+
+
+
+
+
         });
+
+    }
+
+    @SuppressLint("IntentReset")
+    private void sendmessage() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 2);
+        } else {
+            Intent smsIntent = new Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:"+phoneNumber[0]+";"+phoneNumber[1]+";"+phoneNumber[2]));
+            smsIntent.putExtra("sms_body", message);
+            startActivity(smsIntent);
+//            SmsManager.getDefault().sendTextMessage(phoneNumber[0],null,message,null,null);
+
+        }
     }
 
 
