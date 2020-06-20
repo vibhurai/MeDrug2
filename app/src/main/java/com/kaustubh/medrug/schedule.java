@@ -5,6 +5,11 @@ public class schedule {
     private String time;
     private String day;
     private int doctor_id;
+    private boolean slot_booked;
+
+    public boolean isSlot_booked() {
+        return slot_booked;
+    }
 
     public int getId() {
         return id;

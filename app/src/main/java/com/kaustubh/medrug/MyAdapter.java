@@ -3,6 +3,7 @@ package com.kaustubh.medrug;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,18 +16,22 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private click docclick;
 
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder implements RecyclerView.OnClickListener{
         // each data item is just a string in this case
-        public TextView textView;
-        public MyViewHolder(View v) {
+        TextView textView;
+        ImageView lol;
+        MyViewHolder(View v) {
             super(v);
             textView=v.findViewById(R.id.gentext);
+            lol=v.findViewById(R.id.heil);
             v.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             docclick.act(getAdapterPosition());
+//            System.out.println(mDataset.get(getAdapterPosition()));
 
 
         }
@@ -38,10 +43,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         docclick= docs;
     }
 
-    public MyAdapter(ArrayList<String> myDataset, Tame docs) {
-        mDataset = myDataset;
-        docclick= docs;
-    }
+
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -56,6 +58,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         String currentItem = mDataset.get(position);
         holder.textView.setText(currentItem);
+
 
 
 

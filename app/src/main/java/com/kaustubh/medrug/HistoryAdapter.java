@@ -1,9 +1,13 @@
 package com.kaustubh.medrug;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +37,9 @@ import static android.provider.Telephony.Mms.Part.TEXT;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
     private List<historyItem> exampleList;
-    int x;
+    private int x;
+    Context context;
+
 
 
 
@@ -55,8 +61,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         }
     }
 
-    public HistoryAdapter(List<historyItem> examplelist){
+    public HistoryAdapter(List<historyItem> examplelist, Context context){
         this.exampleList=examplelist;
+        this.context=context;
     }
     @NonNull
     @Override
@@ -92,7 +99,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                                 exampleList.remove(holder.getAdapterPosition());
                                 notifyItemRemoved(holder.getAdapterPosition());
                                 //System.out.println(x);
+
+                                Uri deleteUri = null;
+
+                                ContentResolver cr =context.getContentResolver();
+                                deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,current.getEventid());
+                                int rows = cr.delete(deleteUri, null, null);
                                 delete(x);
+
                             }
                         })
 

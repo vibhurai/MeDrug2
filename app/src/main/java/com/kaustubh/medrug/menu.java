@@ -33,7 +33,7 @@ public class menu extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 3) {
-            fillHistoryList();
+            System.out.println("hello there");fillHistoryList();
         }
     }
 
@@ -47,11 +47,11 @@ public class menu extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_DIAL);
-                i.setData(Uri.parse("tel:9428394228"));
+                Intent i=new Intent(getApplicationContext(), loc.class);
                 startActivity(i);
             }
         });
+
 
         Button b2 = findViewById(R.id.book_appointments_button);
         b2.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +69,7 @@ public class menu extends AppCompatActivity {
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Farmacie.class);
+                Intent i = new Intent(getApplicationContext(), KiFarma.class);
                 startActivity(i);
             }
         });
@@ -123,11 +123,11 @@ public class menu extends AppCompatActivity {
         intra = retrofit.create(interface_proc.class);
         addappoi();
     }
-    private void addappoi() {
+    public void addappoi() {
         HistList.clear();
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
         int x = sharedPreferences.getInt(TEXT, -1);
-        Call<List<appointment>> call = intra.getappoi(MainActivity.ppaass);
+        Call<List<appointment>> call = intra.getappoi(x);
         call.enqueue(new Callback<List<appointment>>() {
             @Override
             public void onResponse(Call<List<appointment>> call, Response<List<appointment>> response) {
@@ -139,8 +139,8 @@ public class menu extends AppCompatActivity {
                 {
                     List<appointment> b = response.body();
                     for(appointment med : b){
-                        HistList.add(new historyItem(med.getDoctor(), med.getDate(), med.getTime(), "Confirmed",med.getId()));
-                        System.out.println(med.getId());
+                        HistList.add(new historyItem(med.getDoctor(), med.getDate(), med.getTime(), "Confirmed",med.getId(),Tame.eventID));
+                        //System.out.println(med.getId());
                     }
 
                 }

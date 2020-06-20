@@ -43,7 +43,7 @@ public class History extends AppCompatActivity {
 //        HistList.add(new historyItem("D5", "2020-19-05", "15:00", "Confirmed"));
 //        HistList.add(new historyItem("D6", "2020-20-05", "16:00", "Confirmed"));
 
-        adapter = new HistoryAdapter(menu.HistList);
+        adapter = new HistoryAdapter(menu.HistList,History.this);
         RecyclerView recyclerView2 = findViewById(R.id.ap_rec_vw);
         recyclerView2.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

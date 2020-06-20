@@ -93,6 +93,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
     }
+
     private void fillExampleList() {
 
         Gson gson = new GsonBuilder()

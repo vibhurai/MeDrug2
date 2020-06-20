@@ -29,8 +29,8 @@ public interface interface_proc {
     @POST("register/?format=json")
     Call <reg> postreg(@Body reg register);
 
-    @GET("schedule/{id}/{day}/?format=json")
-    Call<List<schedule>> get_schedule(@Path("id") int id, @Path("day") String day);
+    @GET("schedule/{id}/{day}/{date}/?format=json")
+    Call<List<schedule>> get_schedule(@Path("id") int id, @Path("day") String day,@Path("date") String date);
 
     @GET("appointment/{id}/?format=json")
     Call<List<appointment>> getappoi(@Path("id") int id);

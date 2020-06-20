@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/pharm">
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="300sp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="400sp"
+
+        android:src="@drawable/load"
+        android:layout_marginTop="125dp"
+        />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="300sp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/Wassap"
+        android:text="Take Photo"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/round_button"
+        android:padding="10dp"
+        android:fontFamily="@font/bahnschrift"
+        android:layout_below="@id/editText"/>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="300sp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rect"
+        android:layout_below="@id/imageview"
+        android:hint="Enter medicine(s) (Optional)"
+        />
+    <Button
+
+        android:layout_height="wrap_content"
+        android:layout_width="140sp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/send"
+        android:text="Send to vendor"
+        android:layout_alignStart="@id/Wassap"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/round_button"
+        android:padding="10dp"
+        android:fontFamily="@font/bahnschrift"
+        android:layout_below="@id/Wassap"/>
+
+    <Button
+
+        android:layout_height="wrap_content"
+        android:layout_width="140sp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/wap"
+        android:text="Contact vendor via Whatsapp"
+        android:layout_alignRight="@id/Wassap"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/round_button"
+        android:padding="10dp"
+        android:fontFamily="@font/bahnschrift"
+        android:layout_below="@id/Wassap"/>
+
+
+</RelativeLayout>

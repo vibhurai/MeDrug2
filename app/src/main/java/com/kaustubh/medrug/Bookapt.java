@@ -9,6 +9,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -36,6 +37,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -43,11 +46,14 @@ import static android.provider.Telephony.Mms.Part.TEXT;
 
 public class Bookapt extends AppCompatActivity {
     public static String date;
-    String strEditText1,strEditText2,strEditText3;
+    String strEditText1,strEditText2;
+    public static final String[] TEXT_HIST = {"text","wer","wer","wer","wer","wer","wer","wer","wer","wer","wer","wer"};
+    static String[] details=new String[3];
     interface_proc Interface_proc;
     Button b1 ;
     Button b2;
     Button b3;
+    int hour;
     long mla=0;
     ProgressDialog dialog;
 //    private Object interface_proc;
@@ -56,24 +62,26 @@ public class Bookapt extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == 1) {
-                strEditText1 = data.getStringExtra("Name");
+               details[0]= strEditText1 = data.getStringExtra("Name");
                 Button b2 = findViewById(R.id.Name);
                 b2.setText(strEditText1);
             }
             if (resultCode==2){
-                strEditText2 = data.getStringExtra("Name");
+                details[1]=strEditText2 = data.getStringExtra("Name");
                 Button b2 = findViewById(R.id.Date);
+
                 b2.setText(strEditText2);
                 date=strEditText2;
 
             }
-            if (resultCode==3){
-                strEditText3 = data.getStringExtra("Name");
-                Button b2 = findViewById(R.id.time);
-                b2.setText(strEditText3);
+            if (resultCode==4) {
+                Intent i = new Intent();
+                setResult(3,i);
+                finish();
+            }
 
             }
-        }
+
     }
 
     @Override
@@ -102,31 +110,32 @@ public class Bookapt extends AppCompatActivity {
 
         });
 
-        b3= findViewById(R.id.time);
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Tame.class);
-                startActivityForResult(i,1);
-            }
-        });
+
         Gson gson = new GsonBuilder()
                 .setLenient().serializeNulls()
                 .create();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://devilish.pythonanywhere.com/")
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
 
         Interface_proc = retrofit.create(interface_proc.class);
 
 
 
-        Button b4= findViewById(R.id.Book);
-        b4.setOnClickListener(new View.OnClickListener() {
+//        Button b4= findViewById(R.id.Book);
+        b3= findViewById(R.id.Book);
+        b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (SystemClock.elapsedRealtime() - mla < 3000) {
                     return;
                 }
@@ -138,60 +147,19 @@ public class Bookapt extends AppCompatActivity {
                 dialog.setTitle("Loading");
                 dialog.setMessage("Please wait");
                 dialog.show();
-                //Toast.makeText(Bookapt.this, "Booked successfully", Toast.LENGTH_SHORT).show();
                 getdoc_id();
-
-                //finish();
             }
         });
+//
 
 
 
 
     }
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void check(int s_id) {
-        CharSequence dt =b2.getText();
-        LocalDate lt = LocalDate.parse(dt);
-        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
-        int x = sharedPreferences.getInt(TEXT, -1);
-        appointment app = new appointment(x,s_id,"nothing",String.valueOf(lt));
-        Call<appointment> call= Interface_proc.seeres(app);
-        call.enqueue(new Callback<appointment>() {
-            @Override
-            public void onResponse(Call<appointment> call, Response<appointment> response) {
-                dialog.dismiss();
-                if (!response.isSuccessful()) {
-                    Toast.makeText(Bookapt.this, "The slot has been booked by someone else!", Toast.LENGTH_SHORT).show();
-
-                }
-                else {
-
-                    Toast.makeText(Bookapt.this, "Slot booked successfully!", Toast.LENGTH_SHORT).show();
-                    Intent in = new Intent();
-                    setResult(3,in);
-                    finish();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<appointment> call, Throwable t) {
-                Toast.makeText(Bookapt.this, "Whoops! Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
-
-    private int getschedule_id(int a , String b) {
-        CharSequence ti = b3.getText();
-
-        Call<List<schedule>> call = Interface_proc.get_schedule(a,b);
+    public void gettimeslots(int a , String b, String c)
+    {
+        Call<List<schedule>> call = Interface_proc.get_schedule(a,b,c);
         call.enqueue(new Callback<List<schedule>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -200,11 +168,37 @@ public class Bookapt extends AppCompatActivity {
                     Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
                     return;}
                 List<schedule> res_body = response.body();
-                for(schedule med : res_body)
+                res_body.size();
+                Tame.times.clear();
+                for(int i=0;i<res_body.size();i++)
                 {
-                    if(med.getTime().contains(String.valueOf(ti)))
-                        check(med.getId());
+                    schedule med = res_body.get(i);
+
+
+                    if(!med.isSlot_booked())
+                    {
+                        SharedPreferences sharedPreferences = getSharedPreferences(String.valueOf(TEXT_HIST), MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        String t= med.getTime();
+                        editor.putString(TEXT_HIST[i], t);
+                        editor.apply();
+                        String date=LocalDate.now().toString();
+                        if (details[1].equalsIgnoreCase(date)) {
+                            if(Integer.parseInt(t.substring(0,1))<=LocalTime.now().getHour())
+                            {
+                                continue;
+                            }
+                        }
+
+                        Tame.times.add(t.substring(0,5));
+                    }
+
+
                 }
+                System.out.println(Tame.times);
+                Intent i=new Intent(getApplicationContext(),Tame.class);
+                dialog.dismiss();
+                startActivityForResult(i,1);
 
 
             }
@@ -214,15 +208,8 @@ public class Bookapt extends AppCompatActivity {
                 Toast.makeText(Bookapt.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        return 0;
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void get_day(int x) {
-        CharSequence dt =b2.getText();
-        LocalDate lt = LocalDate.parse(dt);
-        DayOfWeek d = DayOfWeek.from(lt);
-        getschedule_id(x, String.valueOf(d));
+
     }
 
     private void getdoc_id() {
@@ -235,7 +222,7 @@ public class Bookapt extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     Toast.makeText(Bookapt.this, response.code(), Toast.LENGTH_SHORT).show();
                     return;}
-                CharSequence x = b1.getText();
+                CharSequence x = Bookapt.details[0];
                 String a = x.toString();
                 List<doctors> res_body = response.body();
                 for(doctors med : res_body){
@@ -243,7 +230,10 @@ public class Bookapt extends AppCompatActivity {
                         get_day (med.getId());
 
 
-                }}
+                }
+
+
+            }
 
             @Override
             public void onFailure(Call<List<doctors>> call, Throwable t) {
@@ -251,4 +241,13 @@ public class Bookapt extends AppCompatActivity {
             }
         });
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void get_day(int x) {
+        CharSequence dt =Bookapt.details[1];
+        LocalDate lt = LocalDate.parse(dt);
+        DayOfWeek d = DayOfWeek.from(lt);
+        gettimeslots(x, String.valueOf(d), String.valueOf(dt));
+    }
+
+
 }

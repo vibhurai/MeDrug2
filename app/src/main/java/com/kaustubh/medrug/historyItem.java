@@ -5,15 +5,17 @@ public class historyItem {
     String Time;
     String Status;
     int id;
+    long eventid;
 
 
-    public historyItem(String Doctor, String Date, String time, String status, int id){
+    public historyItem(String Doctor, String Date, String time, String status, int id,long eventid){
 
         this.Date=Date;
         this.Doctor=Doctor;
         this.Time=time;
         this.Status=status;
         this.id=id;
+        this.eventid=eventid;
     }
 
     String getDoctor() {
@@ -32,4 +34,7 @@ public class historyItem {
 
     int getId(){return id;}
 
+    public long getEventid() {
+        return eventid;
+    }
 }
